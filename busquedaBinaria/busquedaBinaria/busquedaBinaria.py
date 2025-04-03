@@ -1,6 +1,7 @@
 import json
 
 contador = 0
+datos= []
 
 def busqueda_binaria(arreglo, objetivo):
     global contador
@@ -20,27 +21,23 @@ def busqueda_binaria(arreglo, objetivo):
             fin = medio - 1
     return -1
 
-def guardar_datos(tamanno, operaciones, archivo="datos_busqueda.json"):
-    try:
-        with open(archivo, "r") as f:
-            datos = json.load(f)
-    except FileNotFoundError:
-        datos = []
-
+def guardar_datos(tamanno, operaciones):
+    global datos
     datos.append((tamanno, operaciones))
 
-    with open(archivo, "w") as f:
-        json.dump(datos, f, indent=4)
+    with open("datos_b.json", "w") as f:
+        	json.dump(datos, f, indent=4)
 
-def cargar_datos(archivo="datos_busqueda.json"):
+def cargar_datos():
     try:
-        with open(archivo, "r") as f:
+        with open("datos_b.json", "r") as f:
             datos = json.load(f)
-        return [tuple(par) for par in datos]
+        ltuplas = [tuple(par) for par in datos]
+        print("Datos almacenados:", ltuplas)
     except FileNotFoundError:
-        return []
+        print("No hay datos almacenados.")
 
-lista = list(range(1, 101))
+lista = list(range(1, 100))
 elemento_buscado = 75
 
 contador = 0
@@ -55,4 +52,4 @@ print(f"Numero de operaciones realizadas: {contador}")
 
 guardar_datos(len(lista), contador)
 
-print("Datos guardados:", cargar_datos())
+cargar_datos()
