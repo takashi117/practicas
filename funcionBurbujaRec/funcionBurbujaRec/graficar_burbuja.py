@@ -1,21 +1,38 @@
 import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
-import random
 import json
+import os  # Para verificar si el archivo existe
 
-with open("datos.json","r")as f: l=json.load(f)
-ltuplas=[tuple(par) for par in l]
-print(ltuplas)
+# Pedir al usuario qué archivo quiere graficar
+archivo = input("Ingrese el nombre del archivo a graficar (datos.json o datos_b.json): ")
 
-l=[(random.randint(0,10),random.randint(0,10)) for _ in range (10)]
+# Verificar si el archivo existe antes de abrirlo
+if not os.path.exists(archivo):
+    print(f"El archivo '{archivo}' no existe.")
+else:
+    # Cargar datos desde el archivo seleccionado
+    with open(archivo, "r") as f:
+        l = json.load(f)
+    
+    # Convertir a tuplas
+    ltuplas = [tuple(par) for par in l]
 
-vx=[x for x,y in ltuplas]
-vy=[y for x,y in ltuplas]
+    # Verificar si hay datos para graficar
+    if not ltuplas:
+        print("No hay datos almacenados para graficar.")
+    else:
+        print(f"Datos cargados desde {archivo}: {ltuplas}")
 
-plt.plot(vx, vy, marker='o')
-plt.xlabel("tam. problema")
-plt.ylabel("operaciones")
-plt.title("Algoritmo")
-plt.grid(True)
-plt.show()
+        # Separar los datos en listas para la gráfica
+        vx = [x for x, y in ltuplas]
+        vy = [y for x, y in ltuplas]
+
+        # Graficar
+        plt.plot(vx, vy, marker='o', label=archivo)
+        plt.xlabel("Tam. problema")
+        plt.ylabel("Operaciones")
+        plt.title(f"Comparación de {archivo}")
+        plt.legend()
+        plt.grid(True)
+        plt.show()
