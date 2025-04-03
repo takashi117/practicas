@@ -1,7 +1,6 @@
 import sys
 import random
 import json
-import matplotlib.pyplot as plt
 sys.setrecursionlimit(2000)
 #Datos globales
 contador = 0
